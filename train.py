@@ -194,7 +194,7 @@ if __name__=='__main__':
             state_keys = list(state.keys())
             for i, key in enumerate(state_keys):
                 if regexp.search(key):
-                    newkey = regexp.sub("trunk", key)# key.replace(regexp,"trunk.").lower()  # an architecture model has attribute 'feature', load architecture feature to backbone by casting name from 'feature.trunk.xx' to 'trunk.xx'
+                    newkey = key.replace(regexp,"trunk.").lower()  # an architecture model has attribute 'feature', load architecture feature to backbone by casting name from 'feature.trunk.xx' to 'trunk.xx'
                     state[newkey] = state.pop(key)
                 else:
                     state.pop(key)

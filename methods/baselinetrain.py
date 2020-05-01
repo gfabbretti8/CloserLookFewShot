@@ -37,6 +37,7 @@ class BaselineTrain(nn.Module):
         avg_loss=0
 
         for i, (x,y) in enumerate(train_loader):
+            print(x.shape)
             optimizer.zero_grad()
             loss = self.forward_loss(x, y)
             loss.backward()

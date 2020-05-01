@@ -326,7 +326,7 @@ class ConvNetSNopool(nn.Module): #Relation net use a 4 layer conv with pooling i
 
 class ResNet(nn.Module):
     maml = False #Default
-    def __init__(self,block,list_of_num_layers, list_of_out_dims, flatten = False):
+    def __init__(self,block,list_of_num_layers, list_of_out_dims, flatten = True):
         # list_of_num_layers specifies number of layers in each stage
         # list_of_out_dims specifies number of output channel for each stage
         super(ResNet,self).__init__()
