@@ -375,6 +375,7 @@ class ResNet(nn.Module):
         modules=list(model.children())[:-1]
         modules.append(Flatten())
 
+        print(modules)
 
         self.trunk = nn.Sequential(*modules)
 
