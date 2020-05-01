@@ -394,7 +394,9 @@ def ResNet10( flatten = True):
     return ResNet(SimpleBlock, [1,1,1,1],[64,128,256,512], flatten)
 
 def ResNet18( flatten = True):
-    return models.resnet18()
+    modules=list(models.resnet18().children())[:-1]
+    
+    return nn.Sequential(*modules)
 
 def ResNet34( flatten = True):
     return ResNet(SimpleBlock, [3,4,6,3],[64,128,256,512], flatten)
