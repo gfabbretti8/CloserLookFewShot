@@ -24,6 +24,8 @@ class BaselineTrain(nn.Module):
     def forward(self,x):
         x    = Variable(x.cuda())
         out  = self.feature.forward(x)
+
+        out = out.view(feats.size(0),-1)
         scores  = self.classifier.forward(out)
         return scores
 
