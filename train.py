@@ -190,7 +190,7 @@ if __name__=='__main__':
             pattern = "layer[0-9]{1}"
             regexp = re.compile("layer[0-9]{1}")
 
-            state = model['state_dict']
+            state = tmp['state_dict']
             state_keys = list(state.keys())
             for i, key in enumerate(state_keys):
                 if regexp.search(key):
