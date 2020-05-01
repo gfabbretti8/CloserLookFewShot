@@ -176,11 +176,15 @@ if __name__=='__main__':
             start_epoch = tmp['epoch']+1
             model.load_state_dict(tmp['state'])
     elif params.warmup: #We also support warmup from pretrained baseline feature, but we never used in our paper
-        baseline_checkpoint_dir = '%s/checkpoints/%s/%s_%s' %(configs.save_dir, params.dataset, params.model, 'baseline')
-        if params.train_aug:
-            baseline_checkpoint_dir += '_aug'
-        warmup_resume_file = get_resume_file(baseline_checkpoint_dir)
-        tmp = torch.load(warmup_resume_file)
+        # baseline_checkpoint_dir = '%s/checkpoints/%s/%s_%s' %(configs.save_dir, params.dataset, params.model, 'baseline')
+        # if params.train_aug:
+        #     baseline_checkpoint_dir += '_aug'
+        # warmup_resume_file = get_resume_file(baseline_checkpoint_dir)
+
+
+        tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
+
+
         if tmp is not None:
             state = tmp['state']
             state_keys = list(state.keys())
@@ -190,6 +194,7 @@ if __name__=='__main__':
                     state[newkey] = state.pop(key)
                 else:
                     state.pop(key)
+                    print("popped " + str(key))
             model.feature.load_state_dict(state)
         else:
             raise ValueError('No warm_up file')
