@@ -394,8 +394,11 @@ def ResNet10( flatten = True):
     return ResNet(SimpleBlock, [1,1,1,1],[64,128,256,512], flatten)
 
 def ResNet18( flatten = True):
-    modules=list(models.resnet18().children())[:-1]
-    
+
+    tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
+
+    modules=list(models.resnet18().load_state_dict(tmp['state_dict']).children())[:-1]
+
     return nn.Sequential(*modules)
 
 def ResNet34( flatten = True):
