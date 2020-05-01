@@ -195,6 +195,7 @@ if __name__=='__main__':
                 else:
                     state.pop(key)
                     print("popped " + str(key))
+            print(state.keys())
             model.feature.load_state_dict(state)
         else:
             raise ValueError('No warm_up file')
