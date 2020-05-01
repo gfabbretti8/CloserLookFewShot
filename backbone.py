@@ -397,7 +397,7 @@ def ResNet18( flatten = True):
 
     tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
 
-    modules=list(models.resnet18().load_state_dict(tmp['state_dict']).children())[:-1]
+    modules=list(models.resnet18().load_state_dict(tmp['state_dict'], strict=False).children())[:-1]
 
     return nn.Sequential(*modules)
 
