@@ -6,7 +6,7 @@ import json
 import random
 
 cwd = os.getcwd()
-data_path = join(cwd,'INRIA/images')
+data_path = join(cwd,'/images')
 savedir = './'
 dataset_list = ['base','val','novel']
 
