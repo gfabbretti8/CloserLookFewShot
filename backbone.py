@@ -326,7 +326,7 @@ class ConvNetSNopool(nn.Module): #Relation net use a 4 layer conv with pooling i
 
 class ResNet(nn.Module):
     maml = False #Default
-    def __init__(self,block,list_of_num_layers, list_of_out_dims, flatten = True):
+    def __init__(self,block,list_of_num_layers, list_of_out_dims, flatten = False):
         # list_of_num_layers specifies number of layers in each stage
         # list_of_out_dims specifies number of output channel for each stage
         super(ResNet,self).__init__()
@@ -366,6 +366,7 @@ class ResNet(nn.Module):
         else:
             self.final_feat_dim = [ indim, 7, 7]
 
+
         tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
         model = models.resnet18(pretrained=False)
 
@@ -403,7 +404,6 @@ def ResNet10( flatten = True):
 
 def ResNet18( flatten = True):
     return ResNet(SimpleBlock, [2,2,2,2],[64,128,256,512], flatten)
-
 
 def ResNet34( flatten = True):
     return ResNet(SimpleBlock, [3,4,6,3],[64,128,256,512], flatten)
