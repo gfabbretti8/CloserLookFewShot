@@ -7,7 +7,7 @@ import torch.optim.lr_scheduler as lr_scheduler
 import time
 import os
 import glob
-
+import re
 import configs
 import backbone
 from data.datamgr import SimpleDataManager, SetDataManager
@@ -186,16 +186,19 @@ if __name__=='__main__':
 
 
         if tmp is not None:
-            state = tmp['state_dict']
+
+            pattern = "layer[0-9]{1}"
+            regexp = re.compile("layer[0-9]{1}")
+
+            state = model['state_dict']
             state_keys = list(state.keys())
             for i, key in enumerate(state_keys):
-                if "layer[0-9]+" in key:
-                    newkey = key.replace("layer[0-9]+","trunk.").lower()  # an architecture model has attribute 'feature', load architecture feature to backbone by casting name from 'feature.trunk.xx' to 'trunk.xx'
+                if regexp.search(key):
+                    newkey = regexp.sub("trunk", key)# key.replace(regexp,"trunk.").lower()  # an architecture model has attribute 'feature', load architecture feature to backbone by casting name from 'feature.trunk.xx' to 'trunk.xx'
                     state[newkey] = state.pop(key)
                 else:
                     state.pop(key)
                     print("popped " + str(key))
-            print(state.keys())
             model.feature.load_state_dict(state)
         else:
             raise ValueError('No warm_up file')
