@@ -186,7 +186,7 @@ if __name__=='__main__':
 
 
         if tmp is not None:
-            state = tmp['state']
+            state = tmp['state_dict']
             state_keys = list(state.keys())
             for i, key in enumerate(state_keys):
                 if "feature." in key:
