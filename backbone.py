@@ -372,7 +372,8 @@ class ResNet(nn.Module):
 
         model.load_state_dict(tmp['state_dict'], strict=False)
 
-        modules=list(model.children())
+        modules=list(model.children())[:-1]
+
 
         print(modules)
 
