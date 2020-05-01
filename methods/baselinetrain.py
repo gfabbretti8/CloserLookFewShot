@@ -12,10 +12,10 @@ class BaselineTrain(nn.Module):
         super(BaselineTrain, self).__init__()
         self.feature    = model_func()
         if loss_type == 'softmax':
-            self.classifier = nn.Linear(self.feature.final_feat_dim, num_class)
+            self.classifier = nn.Linear(512, num_class)
             self.classifier.bias.data.fill_(0)
         elif loss_type == 'dist': #Baseline ++
-            self.classifier = backbone.distLinear(self.feature.final_feat_dim, num_class)
+            self.classifier = backbone.distLinear(512, num_class)
         self.loss_type = loss_type  #'softmax' #'dist'
         self.num_class = num_class
         self.loss_fn = nn.CrossEntropyLoss()
@@ -31,7 +31,7 @@ class BaselineTrain(nn.Module):
         scores = self.forward(x)
         y = Variable(y.cuda())
         return self.loss_fn(scores, y )
-    
+
     def train_loop(self, epoch, train_loader, optimizer):
         print_freq = 10
         avg_loss=0
@@ -47,7 +47,7 @@ class BaselineTrain(nn.Module):
             if i % print_freq==0:
                 #print(optimizer.state_dict()['param_groups'][0]['lr'])
                 print('Epoch {:d} | Batch {:d}/{:d} | Loss {:f}'.format(epoch, i, len(train_loader), avg_loss/float(i+1)  ))
-                     
+
     def test_loop(self, val_loader):
         if self.DBval:
             return self.analysis_loop(val_loader)
@@ -65,10 +65,10 @@ class BaselineTrain(nn.Module):
                 if l not in class_file.keys():
                     class_file[l] = []
                 class_file[l].append(f)
-       
+
         for cl in class_file:
             class_file[cl] = np.array(class_file[cl])
-        
+
         DB = DBindex(class_file)
         print('DB index = %4.2f' %(DB))
         return 1/DB #DB index: the lower the better
@@ -91,8 +91,7 @@ def DBindex(cl_data_file):
     mu_i = np.tile( np.expand_dims( np.array(cl_means), axis = 0), (len(class_list),1,1) )
     mu_j = np.transpose(mu_i,(1,0,2))
     mdists = np.sqrt(np.sum(np.square(mu_i - mu_j), axis = 2))
-    
+
     for i in range(cl_num):
         DBs.append( np.max([ (stds[i]+ stds[j])/mdists[i,j]  for j in range(cl_num) if j != i ]) )
     return np.mean(DBs)
-
