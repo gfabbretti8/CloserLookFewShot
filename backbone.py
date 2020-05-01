@@ -366,7 +366,15 @@ class ResNet(nn.Module):
         else:
             self.final_feat_dim = [ indim, 7, 7]
 
-        self.trunk = nn.Sequential(*trunk)
+        tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
+        model = models.resnet18(pretrained=False)
+
+        model.load_state_dict(tmp['state_dict'], strict=False)
+
+        modules=list(model.children())[:-1]
+
+
+        self.trunk = nn.Sequential(*modules)
 
     def forward(self,x):
         out = self.trunk(x)
@@ -394,15 +402,8 @@ def ResNet10( flatten = True):
     return ResNet(SimpleBlock, [1,1,1,1],[64,128,256,512], flatten)
 
 def ResNet18( flatten = True):
+    return ResNet(SimpleBlock, [2,2,2,2],[64,128,256,512], flatten)
 
-    tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
-    model = models.resnet18(pretrained=False)
-
-    model.load_state_dict(tmp['state_dict'], strict=False)
-
-    modules=list(model.children())[:-1]
-
-    return nn.Sequential(*modules)
 
 def ResNet34( flatten = True):
     return ResNet(SimpleBlock, [3,4,6,3],[64,128,256,512], flatten)
