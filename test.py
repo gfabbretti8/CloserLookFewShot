@@ -38,6 +38,7 @@ def feature_evaluation(cl_data_file, model, n_way = 5, n_support = 5, n_query = 
     if adaptation:
         scores  = model.set_forward_adaptation(z_all, is_feature = True)
     else:
+        print(z_all.shape)
         scores  = model.set_forward(z_all, is_feature = True)
     pred = scores.data.cpu().numpy().argmax(axis = 1)
     y = np.repeat(range( n_way ), n_query )
