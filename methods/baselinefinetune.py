@@ -25,7 +25,7 @@ class BaselineFinetune(MetaTemplate):
         y_support = Variable(y_support.cuda())
 
         if self.loss_type == 'softmax':
-            linear_clf = nn.Linear(self.feat_dim, self.n_way)
+            linear_clf = nn.Linear(2048, self.n_way)
         elif self.loss_type == 'dist':
             linear_clf = backbone.distLinear(self.feat_dim, self.n_way)
         linear_clf = linear_clf.cuda()
