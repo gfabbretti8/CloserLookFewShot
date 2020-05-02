@@ -368,7 +368,7 @@ class ResNet(nn.Module):
 
 
         tmp = torch.load("/kaggle/input/weights-fcn/resnet18_oxford102.pt")
-        model = models.resnet18(pretrained=True)
+        model = models.resnet152(pretrained=True)
 
         #model.load_state_dict(tmp['state_dict'], strict=False)
 

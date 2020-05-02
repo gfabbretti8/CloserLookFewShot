@@ -12,10 +12,10 @@ class BaselineTrain(nn.Module):
         super(BaselineTrain, self).__init__()
         self.feature    = model_func()
         if loss_type == 'softmax':
-            self.classifier = nn.Linear(512, num_class)
+            self.classifier = nn.Linear(2048, num_class)
             self.classifier.bias.data.fill_(0)
         elif loss_type == 'dist': #Baseline ++
-            self.classifier = backbone.distLinear(512, num_class)
+            self.classifier = backbone.distLinear(2048, num_class)
         self.loss_type = loss_type  #'softmax' #'dist'
         self.num_class = num_class
         self.loss_fn = nn.CrossEntropyLoss()
