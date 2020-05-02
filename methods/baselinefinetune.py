@@ -34,7 +34,7 @@ class BaselineFinetune(MetaTemplate):
 
         loss_function = nn.CrossEntropyLoss()
         loss_function = loss_function.cuda()
-        print(linear_clf)
+
 
         batch_size = 4
         support_size = self.n_way* self.n_support
